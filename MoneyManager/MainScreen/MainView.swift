@@ -30,7 +30,8 @@ struct MainView: View {
                         }
                         
                         Divider()
-                            .overlay(.white)
+                            .frame(height: 1)
+                            .overlay(Color.keyboardBackground)
                         
                         HStack {
                             VStack(alignment: .leading) {
@@ -49,9 +50,10 @@ struct MainView: View {
                         }
                         
                         Divider()
-                            .overlay(.white)
+                            .frame(height: 1)
+                            .overlay(Color.keyboardBackground)
                         
-                        Text("Показываем, сколько тратить, чтобы выжить на те деньги, что есть на счету")
+                        Text("Показываем сколько тратить чтобы выжить на те деньги, что есть на счету")
                             .foregroundStyle(.white)
                             .font(.title3)
                             .fontDesign(.monospaced)
