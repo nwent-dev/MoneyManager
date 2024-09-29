@@ -19,14 +19,18 @@ struct MainView: View {
                         HStack {
                             Spacer()
                             
-                            Text("8200 на 24 дня")
-                                .foregroundStyle(.white)
-                                .font(.title3)
-                                .fontDesign(.monospaced)
-                            
-                            Image(systemName: "gearshape")
-                                .foregroundStyle(.white)
-                                .font(.title3)
+                            NavigationLink {
+                                SettingsView()
+                            } label: {
+                                Text("8200 на 24 дня")
+                                    .foregroundStyle(.white)
+                                    .font(.title3)
+                                    .fontDesign(.monospaced)
+                                
+                                Image(systemName: "gearshape")
+                                    .foregroundStyle(.white)
+                                    .font(.title3)
+                            }
                         }
                         
                         Divider()
@@ -59,7 +63,7 @@ struct MainView: View {
                             .fontDesign(.monospaced)
                         
                         NavigationLink {
-                            //
+                            SettingsView()
                         } label: {
                             Text("Изменить срок и сумму")
                                 .foregroundStyle(.mainOrange)

@@ -16,7 +16,7 @@ struct SettingsView: View {
             VStack {
                 HStack {
                     Button {
-                        
+                        dismiss()
                     } label: {
                         Text("Отменить")
                             .foregroundStyle(.white)
@@ -85,6 +85,7 @@ struct SettingsView: View {
             }
             .padding(.horizontal, 15)
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
