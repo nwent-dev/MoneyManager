@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    @StateObject var viewModel = MainViewModel(userDefaultsService: UserDefaultsService())
     @State var text: String = "0"
     
     var body: some View {
@@ -20,9 +22,9 @@ struct MainView: View {
                             Spacer()
                             
                             NavigationLink {
-                                SettingsView()
+                                SettingsView(viewModel: self.viewModel)
                             } label: {
-                                Text("8200 на 24 дня")
+                                Text("\(viewModel.totalMoney) на \(viewModel.dayDifference)")
                                     .foregroundStyle(.white)
                                     .font(.title3)
                                     .fontDesign(.monospaced)
@@ -39,13 +41,13 @@ struct MainView: View {
                         
                         HStack {
                             VStack(alignment: .leading) {
-                                Text("1911")
+                                Text("\(viewModel.moneyForDay)")
                                     .foregroundStyle(.white)
                                     .font(.largeTitle)
                                     .fontDesign(.monospaced)
                                     .bold()
                                 
-                                Text("На сегодня:")
+                                Text("На сегодня")
                                     .foregroundStyle(.white)
                                     .fontDesign(.monospaced)
                             }
@@ -63,7 +65,7 @@ struct MainView: View {
                             .fontDesign(.monospaced)
                         
                         NavigationLink {
-                            SettingsView()
+                            SettingsView(viewModel: self.viewModel)
                         } label: {
                             Text("Изменить срок и сумму")
                                 .foregroundStyle(.mainOrange)

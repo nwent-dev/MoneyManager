@@ -187,14 +187,17 @@
 				};
 			};
 			buildConfigurationList = 63172F9D2CA8B8EA0019092D /* Build configuration list for PBXProject "MoneyManager" */;
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 63172F992CA8B8EA0019092D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 63172FA32CA8B8EA0019092D /* Products */;
 			projectDirPath = "";
