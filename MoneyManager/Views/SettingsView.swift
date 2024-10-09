@@ -70,6 +70,9 @@ struct AmountInputView: View {
             VStack(alignment: .leading, spacing: 0) {
                 TextField("Введите сумму", text: $viewModel.totalMoney)
                     .modifier(MyTextStyle(font: .largeTitle, color: .white, fontWeight: .bold))
+                    .onChange(of: viewModel.totalMoney) {
+                        viewModel.calculateMoneyForDay()
+                    }
                 
                 Text("\(viewModel.moneyForDay) в день")
                     .modifier(MyTextStyle(font: .headline, color: .white, fontWeight: .regular))
@@ -112,7 +115,7 @@ struct MyTextStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .font(font)
-            .fontDesign(.monospaced)
+            .fontDesign(.default)
             .foregroundStyle(color)
             .fontWeight(fontWeight)
     }

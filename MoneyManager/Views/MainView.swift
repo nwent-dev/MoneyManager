@@ -25,9 +25,7 @@ struct MainView: View {
                                 SettingsView(viewModel: self.viewModel)
                             } label: {
                                 Text("\(viewModel.totalMoney) на \(viewModel.dayDifference)")
-                                    .foregroundStyle(.white)
-                                    .font(.title3)
-                                    .fontDesign(.monospaced)
+                                    .modifier(MyTextStyle(font: .title3, color: .white, fontWeight: .regular))
                                 
                                 Image(systemName: "gearshape")
                                     .foregroundStyle(.white)
@@ -42,14 +40,10 @@ struct MainView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("\(viewModel.moneyForDay)")
-                                    .foregroundStyle(.white)
-                                    .font(.largeTitle)
-                                    .fontDesign(.monospaced)
-                                    .bold()
+                                    .modifier(MyTextStyle(font: .largeTitle, color: .white, fontWeight: .bold))
                                 
                                 Text("На сегодня")
-                                    .foregroundStyle(.white)
-                                    .fontDesign(.monospaced)
+                                    .modifier(MyTextStyle(font: .headline, color: .white, fontWeight: .regular))
                             }
                             
                             Spacer()
@@ -60,17 +54,13 @@ struct MainView: View {
                             .overlay(Color.keyboardBackground)
                         
                         Text("Показываем сколько тратить чтобы выжить на те деньги, что есть на счету")
-                            .foregroundStyle(.white)
-                            .font(.title3)
-                            .fontDesign(.monospaced)
+                            .modifier(MyTextStyle(font: .title3, color: .white, fontWeight: .regular))
                         
                         NavigationLink {
                             SettingsView(viewModel: self.viewModel)
                         } label: {
                             Text("Изменить срок и сумму")
-                                .foregroundStyle(.mainOrange)
-                                .font(.title3)
-                                .fontDesign(.monospaced)
+                                .modifier(MyTextStyle(font: .title3, color: .mainOrange, fontWeight: .regular))
                         }
                     }
                     .padding(.horizontal, 15)
@@ -81,13 +71,11 @@ struct MainView: View {
                         Spacer()
                         
                         Text("\(text)")
-                            .foregroundStyle(.keyboardBackground)
-                            .font(.largeTitle)
-                            .fontDesign(.monospaced)
+                            .modifier(MyTextStyle(font: .largeTitle, color: .keyboardBackground, fontWeight: .regular))
                             .padding(.horizontal, 15)
                     }
                     
-                    CalcKeyboard(text: $text)
+                    CalcKeyboard(viewModel: self.viewModel ,text: $text)
                 }
             }
             .edgesIgnoringSafeArea(.bottom)
@@ -109,14 +97,12 @@ struct CalcButton: View {
             Image(systemName: image!)
                 .foregroundColor(forColor)
                 .font(.title)
-                .fontDesign(.monospaced)
                 .frame(width: width, height: height)
                 .background(backgroundColor)
         } else {
             Text(label)
                 .foregroundColor(.black)
                 .font(.title)
-                .fontDesign(.monospaced)
                 .frame(width: width, height: height)
                 .background(backgroundColor)
         }
@@ -124,6 +110,7 @@ struct CalcButton: View {
 }
 
 struct CalcKeyboard: View {
+    @ObservedObject var viewModel: MainViewModel
     @Binding var text: String
     let buttonLabels = [
         ["1", "2", "3"],
@@ -170,6 +157,8 @@ struct CalcKeyboard: View {
                     CalcButton(label: "Enter", image: "return", width: buttonWidth, height: buttonHeight * 3 + 2, forColor: .black, backgroundColor: .mainOrange)
                         .onTapGesture {
                             // Здесь должно быть добавление траты
+                            viewModel.makeSpend(money: Int(text) ?? 0)
+                            text = "0"
                         }
                 }
             }

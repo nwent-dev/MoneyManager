@@ -19,17 +19,19 @@ class MainViewModel: ObservableObject {
     init(userDefaultsService: UserDefaultsService) {
         self.userDefaultsService = userDefaultsService
         fetchDataFromUserDefaults()
-        calculateMoneyForDay()
+        checkToday()
     }
     
     func saveDataToUserDefaults() {
-        userDefaultsService.save(totalMoney: self.totalMoney, toThisDate: self.toThisDate)
+        userDefaultsService.save(totalMoney: self.totalMoney, toThisDate: self.toThisDate, moneyForDay: self.moneyForDay, dayDifference: self.dayDifference)
     }
     
     func fetchDataFromUserDefaults() {
         let data = userDefaultsService.fetch()
         self.totalMoney = data.totalMoney
         self.toThisDate = data.toThisDate
+        self.moneyForDay = data.moneyForDay
+        self.dayDifference = data.dayDifference
         if toThisDate < Date.now {
             self.toThisDate = Date.now
         }
@@ -45,7 +47,6 @@ class MainViewModel: ObservableObject {
                 let numberString = String(number)
                 let dayText: String
                 
-                // Логика для правильных склонений
                 if number % 100 >= 11 && number % 100 <= 14 {
                     dayText = "\(date.formatted(.dateTime.day().month(.wide))) - \(number) дней"
                 } else if numberString.last == "1" {
@@ -61,7 +62,6 @@ class MainViewModel: ObservableObject {
         return dateOptions
     }
     
-    // Метод для установки выбранной даты и перерасчета денег на день
     func selectDate(_ date: Date) {
         self.toThisDate = date
         calculateMoneyForDay()
@@ -86,7 +86,7 @@ class MainViewModel: ObservableObject {
                 moneyForDay = 0
                 return
             }
-            self.dayDifference = validateDay(daysDifference + 1 )
+            self.dayDifference = validateDay(daysDifference + 1)
             moneyForDay = totalMoneyInt / (daysDifference + 1)
         }
     }
@@ -102,4 +102,45 @@ class MainViewModel: ObservableObject {
             return "\(day) дней"
         }
     }
+    
+    func checkToday() {
+        func isSameDate(_ date1: Date, _ date2: Date) -> Bool {
+            let calendar = Calendar.current
+            
+            // Извлекаем только нужные компоненты: год, месяц, день
+            let components1 = calendar.dateComponents([.year, .month, .day], from: date1)
+            let components2 = calendar.dateComponents([.year, .month, .day], from: date2)
+            
+            // Сравниваем компоненты
+            return components1.year == components2.year &&
+                   components1.month == components2.month &&
+                   components1.day == components2.day
+        }
+        
+        let today = Date()
+        let userDefaults = UserDefaults.standard
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) ?? Date()
+        let lastUpdate = userDefaults.object(forKey: "lastUpdate") as? Date ?? .init()
+        
+        if !isSameDate(today, lastUpdate) {
+            calculateMoneyForDay()
+        }
+        
+        userDefaults.set(today, forKey: "lastUpdate")
+    }
+    
+    func makeSpend(money: Int) {
+        guard let totalMoneyInt = Int(totalMoney), totalMoneyInt >= money, moneyForDay >= money else {
+            // Если денег недостаточно для траты
+            return
+        }
+
+        // Отнимаем деньги от общего баланса и денег на день
+        moneyForDay -= money
+        totalMoney = String(totalMoneyInt - money)
+        
+        // Сохраняем изменения
+        saveDataToUserDefaults()
+    }
 }
+
