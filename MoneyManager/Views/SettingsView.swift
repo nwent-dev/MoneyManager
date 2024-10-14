@@ -21,7 +21,7 @@ struct SettingsView: View {
                         dismiss()
                     } label: {
                         Text("Отменить")
-                            .modifier(MyTextStyle(font: .title3, color: .white, fontWeight: .medium))
+                            .modifier(MyTextStyle(font: .title3, color: .mainText, fontWeight: .medium))
                     }
                     
                     Spacer()
@@ -31,7 +31,7 @@ struct SettingsView: View {
                         dismiss()
                     } label: {
                         Text("Сохранить")
-                            .modifier(MyTextStyle(font: .title3, color: .white, fontWeight: .medium))
+                            .modifier(MyTextStyle(font: .title3, color: .mainText, fontWeight: .medium))
                     }
                 }
                 
@@ -65,17 +65,17 @@ struct AmountInputView: View {
         HStack(spacing: 20) {
             VStack {
                 Text("Сумма")
-                    .modifier(MyTextStyle(font: .title3, color: .white, fontWeight: .medium))
+                    .modifier(MyTextStyle(font: .title3, color: .mainText, fontWeight: .medium))
             }
             VStack(alignment: .leading, spacing: 0) {
                 TextField("Введите сумму", text: $viewModel.totalMoney)
-                    .modifier(MyTextStyle(font: .largeTitle, color: .white, fontWeight: .bold))
+                    .modifier(MyTextStyle(font: .largeTitle, color: .mainText, fontWeight: .bold))
                     .onChange(of: viewModel.totalMoney) {
                         viewModel.calculateMoneyForDay()
                     }
                 
                 Text("\(viewModel.moneyForDay) в день")
-                    .modifier(MyTextStyle(font: .headline, color: .white, fontWeight: .regular))
+                    .modifier(MyTextStyle(font: .headline, color: .mainText, fontWeight: .regular))
             }
             Spacer()
         }
@@ -88,7 +88,7 @@ struct ToThisDateView: View {
     var body: some View {
         HStack(spacing: 32) {
             Text("Срок")
-                .modifier(MyTextStyle(font: .title3, color: .white, fontWeight: .medium))
+                .modifier(MyTextStyle(font: .title3, color: .mainText, fontWeight: .medium))
             
             Menu {
                 ForEach(viewModel.getDateOptions(), id: \.date) { option in
@@ -100,7 +100,7 @@ struct ToThisDateView: View {
                 }
             } label: {
                 Text("по \(viewModel.toThisDate.formatted(Date.FormatStyle().day().month(.wide)))")
-                    .modifier(MyTextStyle(font: .title3, color: .mainOrange, fontWeight: .medium))
+                    .modifier(MyTextStyle(font: .title3, color: .mainOrange, fontWeight: .semibold))
             }
             Spacer()
         }

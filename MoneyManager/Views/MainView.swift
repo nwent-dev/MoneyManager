@@ -25,10 +25,10 @@ struct MainView: View {
                                 SettingsView(viewModel: self.viewModel)
                             } label: {
                                 Text("\(viewModel.totalMoney) на \(viewModel.dayDifference)")
-                                    .modifier(MyTextStyle(font: .title3, color: .white, fontWeight: .regular))
+                                    .modifier(MyTextStyle(font: .title3, color: .mainText, fontWeight: .regular))
                                 
                                 Image(systemName: "gearshape")
-                                    .foregroundStyle(.white)
+                                    .foregroundStyle(.mainText)
                                     .font(.title3)
                             }
                         }
@@ -40,10 +40,10 @@ struct MainView: View {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text("\(viewModel.moneyForDay)")
-                                    .modifier(MyTextStyle(font: .largeTitle, color: .white, fontWeight: .bold))
+                                    .modifier(MyTextStyle(font: .largeTitle, color: .mainText, fontWeight: .bold))
                                 
                                 Text("На сегодня")
-                                    .modifier(MyTextStyle(font: .headline, color: .white, fontWeight: .regular))
+                                    .modifier(MyTextStyle(font: .headline, color: .mainText, fontWeight: .regular))
                             }
                             
                             Spacer()
@@ -54,13 +54,13 @@ struct MainView: View {
                             .overlay(Color.keyboardBackground)
                         
                         Text("Показываем сколько тратить чтобы выжить на те деньги, что есть на счету")
-                            .modifier(MyTextStyle(font: .title3, color: .white, fontWeight: .regular))
+                            .modifier(MyTextStyle(font: .title3, color: .mainText, fontWeight: .regular))
                         
                         NavigationLink {
                             SettingsView(viewModel: self.viewModel)
                         } label: {
                             Text("Изменить срок и сумму")
-                                .modifier(MyTextStyle(font: .title3, color: .mainOrange, fontWeight: .regular))
+                                .modifier(MyTextStyle(font: .title3, color: .mainOrange, fontWeight: .semibold))
                         }
                     }
                     .padding(.horizontal, 15)
