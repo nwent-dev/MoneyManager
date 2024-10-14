@@ -13,6 +13,8 @@ class MainViewModel: ObservableObject {
     @Published var moneyForDay: Int = 0
     @Published var toThisDate: Date = .init()
     @Published var dayDifference: String = "0"
+    @Published var savedMoney: String = "0"
+    @Published var isMoneySaved: Bool = false
     
     private let userDefaultsService: UserDefaultsService
     
@@ -103,6 +105,10 @@ class MainViewModel: ObservableObject {
         }
     }
     
+    func savedMoneyForToday() {
+        self.moneyForDay += Int(savedMoney) ?? 0
+    }
+    
     func checkToday() {
         func isSameDate(_ date1: Date, _ date2: Date) -> Bool {
             let calendar = Calendar.current
@@ -119,14 +125,30 @@ class MainViewModel: ObservableObject {
         
         let today = Date()
         let userDefaults = UserDefaults.standard
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: today) ?? Date()
         let lastUpdate = userDefaults.object(forKey: "lastUpdate") as? Date ?? .init()
         
         if !isSameDate(today, lastUpdate) {
+            if moneyForDay != 0 {
+                savedMoney = String(moneyForDay)
+                isMoneySaved = true
+            }
             calculateMoneyForDay()
         }
         
         userDefaults.set(today, forKey: "lastUpdate")
+    }
+    
+    func increaseMoneyForDay() {
+        guard let savedMoneyInt = Int(savedMoney) else {
+            return
+        }
+        self.moneyForDay += savedMoneyInt
+        isMoneySaved = false
+    }
+    
+    func collectMoney() {
+        calculateMoneyForDay()
+        isMoneySaved = false
     }
     
     func makeSpend(money: Int) {

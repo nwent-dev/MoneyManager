@@ -165,6 +165,18 @@ struct CalcKeyboard: View {
         }
         .frame(height: UIScreen.main.bounds.height * 0.42)
         .background(Color.keyboardBackground)
+        .alert("Вы сэкономили \(viewModel.savedMoney). Решите, что с ними делать с деньгами", isPresented: $viewModel.isMoneySaved) {
+            Button{
+                viewModel.increaseMoneyForDay()
+            } label: {
+                Text("Потратить все сегодня")
+            }
+            Button{
+                viewModel.collectMoney()
+            } label: {
+                Text("Увеличить дневной бюджет")
+            }
+        }
     }
 }
 
